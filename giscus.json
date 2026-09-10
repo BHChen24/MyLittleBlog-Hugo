@@ -1,0 +1,7 @@
+{
+  "origins": ["https://www.parkerchenca.com"],
+  "originsRegex": [
+    "^http://localhost:[0-9]+$",
+    "^https://my-little-blog-hugo(-[a-z0-9-]+)?\\.vercel\\.app$"
+  ]
+}
