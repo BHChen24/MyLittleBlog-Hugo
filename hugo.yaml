@@ -44,8 +44,8 @@ languages:
             homeInfoParams:
                 Title: "你好，我是 Parker 👋"
                 Content: >
-                    全栈开发者，有金融背景，如有兴趣请点击
-                    GitHub 图标查看更多个人资料。本博客主要用于存储个人技术笔记和想法，如果你能找到有用的信息我会很开心。
+                    全栈开发者，有金融和统计背景。想了解更多关于我的信息，可以看看我的
+                    GitHub。本博客主要用于存储个人技术笔记和想法，如果你能找到有用的信息我会很开心。
         menus:
             main:
                 - name: 归档
@@ -147,9 +147,8 @@ params:
     homeInfoParams:
         Title: "Hi, I'm Parker 👋"
         Content: >
-            Full-stack developer with a finance background. Click the GitHub icon for
-            more of my personal profile. This blog is mainly where I keep my tech
-            notes and thoughts, and I'd be happy if you find something useful here.
+            Full-stack developer with a background in finance and statistics. Check out my GitHub for more about me.
+            This blog is mainly where I keep my tech notes and thoughts, and I'd be happy if you find something useful here.
 
     socialIcons:
         - name: github
