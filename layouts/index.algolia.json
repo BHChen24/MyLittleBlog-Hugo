@@ -1,5 +1,7 @@
 {{- /* Algolia records for the current language. Written to <lang>/algolia.json. */ -}}
-{{- /* content is truncated so a record stays under Algolia's 10KB record cap. */ -}}
+{{- /* summary and content are truncated so a record stays under Algolia's 10KB
+     record cap. Hugo's automatic summary takes whole blocks, so a post that
+     opens with a long table or code block would otherwise get a huge summary. */ -}}
 {{- /* htmlUnescape runs twice, and after truncate: both plainify and the HTML-aware
      truncate escape entities, so unescaping must come last. */ -}}
 {{- $records := slice -}}
@@ -10,7 +12,7 @@
         "title"      .Title
         "permalink"  .Permalink
         "relpath"    .RelPermalink
-        "summary"    (.Summary | plainify | htmlUnescape | htmlUnescape)
+        "summary"    (.Summary | plainify | truncate 300 "" | htmlUnescape | htmlUnescape)
         "content"    (.Content | plainify | truncate 2000 "" | htmlUnescape | htmlUnescape)
         "date"       .Date.Unix
         "dateStr"    (.Date.Format (site.Params.DateFormat | default "2006-01-02"))
