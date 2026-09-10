@@ -9,94 +9,102 @@ enableRobotsTXT: true
 defaultContentLanguage: "en"
 defaultContentLanguageInSubdir: false
 languages:
-  en:
-    label: "English"
-    locale: "en-us"
-    weight: 1
-    title: "My Little Blog"
-    params:
-      description: "Notes on software, tooling, and things I'm learning."
-      algolia:
-        indexName: "blog_en"
-    menus:
-      main:
-        - name: Archives
-          url: /archives/
-          weight: 10
-        - name: Categories
-          url: /categories/
-          weight: 20
-        - name: Tags
-          url: /tags/
-          weight: 30
-        - name: Search
-          url: /search/
-          weight: 40
-  zh:
-    label: "中文"
-    locale: "zh-cn"
-    weight: 2
-    title: "我的小博客"
-    params:
-      description: "关于软件、工具链和日常学习的笔记。"
-      algolia:
-        indexName: "blog_zh"
-      homeInfoParams:
-        Title: "你好，我是 Parker 👋"
-        Content: >
-          关于软件、工具链，以及那些我故意拆坏的东西的笔记。
-          大多是 Hugo、Emacs，还有我当时正在读源码的随便什么项目。
-    menus:
-      main:
-        - name: 归档
-          url: /zh/archives/
-          weight: 10
-        - name: 分类
-          url: /zh/categories/
-          weight: 20
-        - name: 标签
-          url: /zh/tags/
-          weight: 30
-        - name: 搜索
-          url: /zh/search/
-          weight: 40
+    en:
+        label: "English"
+        locale: "en-us"
+        weight: 1
+        title: "My Little Blog"
+        params:
+            description: "Notes on software, tooling, and things I'm learning."
+            algolia:
+                indexName: "blog_en"
+        menus:
+            main:
+                - name: Archives
+                  url: /archives/
+                  weight: 10
+                - name: Categories
+                  url: /categories/
+                  weight: 20
+                - name: Tags
+                  url: /tags/
+                  weight: 30
+                - name: Search
+                  url: /search/
+                  weight: 40
+    zh:
+        label: "中文"
+        locale: "zh-cn"
+        weight: 2
+        title: "我的小博客"
+        params:
+            description: "关于软件、工具链和日常学习的笔记。"
+            algolia:
+                indexName: "blog_zh"
+            homeInfoParams:
+                Title: "你好，我是 Parker 👋"
+                Content: >
+                    全栈开发者，有金融背景，如有兴趣请点击
+                    GitHub 图标查看更多个人资料。本博客主要用于存储个人技术笔记和想法，如果你能找到有用的信息我会很开心。
+        menus:
+            main:
+                - name: 归档
+                  url: /zh/archives/
+                  weight: 10
+                - name: 分类
+                  url: /zh/categories/
+                  weight: 20
+                - name: 标签
+                  url: /zh/tags/
+                  weight: 30
+                - name: 搜索
+                  url: /zh/search/
+                  weight: 40
 
 # Custom output format that writes the Algolia records file per language:
 #   public/algolia.json  and  public/zh/algolia.json
 outputFormats:
-  LLMS:
-    baseName: "llms"
-    mediaType: "text/plain"
-    isPlainText: true
-    notAlternative: true
-  Algolia:
-    baseName: "algolia"
-    mediaType: "application/json"
-    isPlainText: true
-    notAlternative: true
+    LLMS:
+        baseName: "llms"
+        mediaType: "text/plain"
+        isPlainText: true
+        notAlternative: true
+    Algolia:
+        baseName: "algolia"
+        mediaType: "application/json"
+        isPlainText: true
+        notAlternative: true
 
 outputs:
-  home:
-    - HTML
-    - RSS
-    - Algolia
-    - LLMS
+    home:
+        - HTML
+        - RSS
+        - Algolia
+        - LLMS
 
 markup:
-  highlight:
-    # noClasses: false emits chroma CSS classes instead of inline styles, so the
-    # theme's chroma-styles.css can follow the light/dark toggle.
-    noClasses: false
-    codeFences: true
-    guessSyntax: true
-    lineNos: false
-    tabWidth: 4
-  goldmark:
-    renderer:
-      unsafe: true
-  tableOfContents:
-    startLevel: 2
-    endLevel: 4
+    highlight:
+        # noClasses: false emits chroma CSS classes instead of inline styles, so the
+        # theme's chroma-styles.css can follow the light/dark toggle.
+        noClasses: false
+        codeFences: true
+        guessSyntax: true
+        lineNos: false
+        tabWidth: 4
+    goldmark:
+        renderer:
+            unsafe: true
+        # $$...$$ blocks reach layouts/_markup/render-passthrough.html untouched and
+        # are rendered with KaTeX at build time. Inline delimiters are left off so
+        # escaped parentheses and dollar signs in prose stay literal.
+        extensions:
+            passthrough:
+                enable: true
+                delimiters:
+                    block: [["$$", "$$"]]
+    tableOfContents:
+        startLevel: 2
+        endLevel: 4
 
 # Uncomment once a GA4 measurement ID exists. SEO tags and analytics are only
 # emitted on production builds.
@@ -105,60 +113,64 @@ markup:
 #     ID: "G-XXXXXXXXXX"
 
 params:
-  env: production
-  author: "Parker Chen"
-  DateFormat: "2006-01-02"
-  defaultTheme: auto
-  keywords: [blog, hugo, org-mode, notes]
+    env: production
+    # Without this Hugo lists only the section with the most pages on the home
+    # page and in RSS, which hides every tech post behind OSD600.
+    mainSections: ["tech", "osd600"]
+    author: "Parker Chen"
+    DateFormat: "2006-01-02"
+    defaultTheme: auto
+    keywords: [blog, hugo, org-mode, notes]
 
-  # Author stays in params for schema.org/OpenGraph; hideAuthor only
-  # drops it from the visible post meta line.
-  hideAuthor: true
-  showtoc: true
-  tocopen: false
-  ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
-  ShowPostNavLinks: true
-  ShowShareButtons: true
-  ShowRssButtonInSectionTermList: true
-  ShowFullTextinRSS: true
-  comments: true
-  displayFullLangName: true
-  disableScrollToTop: false
+    # Author stays in params for schema.org/OpenGraph; hideAuthor only
+    # drops it from the visible post meta line.
+    hideAuthor: true
+    showtoc: true
+    tocopen: false
+    ShowBreadCrumbs: true
+    ShowCodeCopyButtons: true
+    ShowPostNavLinks: true
+    ShowShareButtons: true
+    ShowRssButtonInSectionTermList: true
+    ShowFullTextinRSS: true
+    comments: true
+    displayFullLangName: true
+    disableScrollToTop: false
 
-  # Algolia credentials. appId and searchApiKey are public by design — the
-  # search-only key is safe to ship in the page. Never put the admin key here;
-  # the push script reads that from the environment.
-  algolia:
-    appId: ""
-    searchApiKey: ""
+    # Algolia credentials. appId and searchApiKey are public by design — the
+    # search-only key is safe to ship in the page. Never put the admin key here;
+    # the push script reads that from the environment.
+    algolia:
+        appId: ""
+        searchApiKey: ""
 
-  homeInfoParams:
-    Title: "Hi, I'm Parker 👋"
-    Content: >
-      Software notes, tooling experiments, and things I break on purpose.
-      Mostly Hugo, Emacs, and whatever I'm currently reading the source of.
+    homeInfoParams:
+        Title: "Hi, I'm Parker 👋"
+        Content: >
+            Full-stack developer with a finance background. Click the GitHub icon for
+            more of my personal profile. This blog is mainly where I keep my tech
+            notes and thoughts, and I'd be happy if you find something useful here.
 
-  socialIcons:
-    - name: github
-      url: "https://github.com/BHChen24"
-    - name: email
-      url: "mailto:baihua.parker.chen@gmail.com"
-    - name: rss
-      url: "/index.xml"
+    socialIcons:
+        - name: github
+          url: "https://github.com/BHChen24"
+        - name: email
+          url: "mailto:baihua.parker.chen@gmail.com"
+        - name: rss
+          url: "/index.xml"
 
-  schema:
-    publisherType: "Person"
-  analytics:
-    google:
-      SiteVerificationTag: ""
+    schema:
+        publisherType: "Person"
+    analytics:
+        google:
+            SiteVerificationTag: ""
 
-  # giscus stores comments as Discussions in this repo. The repo must stay public
-  # with Discussions enabled and the giscus app installed. Announcements is used
-  # because only maintainers can open threads there; giscus opens them on first
-  # comment. The IDs come from https://giscus.app and are public.
-  giscus:
-    repo: "BHChen24/MyLittleBlog-Hugo"
-    repoId: "R_kgDOUVlXmA"
-    category: "Announcements"
-    categoryId: "DIC_kwDOUVlXmM4DFU9B"
+    # giscus stores comments as Discussions in this repo. The repo must stay public
+    # with Discussions enabled and the giscus app installed. Announcements is used
+    # because only maintainers can open threads there; giscus opens them on first
+    # comment. The IDs come from https://giscus.app and are public.
+    giscus:
+        repo: "BHChen24/MyLittleBlog-Hugo"
+        repoId: "R_kgDOUVlXmA"
+        category: "Announcements"
+        categoryId: "DIC_kwDOUVlXmM4DFU9B"
