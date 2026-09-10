@@ -153,10 +153,12 @@ params:
     google:
       SiteVerificationTag: ""
 
-  # Fill these from https://giscus.app. The comments partial renders nothing
-  # while repo is empty.
+  # giscus stores comments as Discussions in this repo. The repo must stay public
+  # with Discussions enabled and the giscus app installed. Announcements is used
+  # because only maintainers can open threads there; giscus opens them on first
+  # comment. The IDs come from https://giscus.app and are public.
   giscus:
-    repo: ""
-    repoId: ""
+    repo: "BHChen24/MyLittleBlog-Hugo"
+    repoId: "R_kgDOUVlXmA"
     category: "Announcements"
-    categoryId: ""
+    categoryId: "DIC_kwDOUVlXmM4DFU9B"
