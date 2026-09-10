@@ -1,0 +1,161 @@
+baseURL: "https://www.parkerchenca.com/"
+title: "My Little Blog"
+theme: ["PaperMod"]
+copyright: "© Parker Chen"
+enableRobotsTXT: true
+
+# Default language sits at the root (/tech/foo/); zh is prefixed (/zh/tech/foo/).
+# Flip defaultContentLanguageInSubdir to true to move English under /en/ as well.
+defaultContentLanguage: "en"
+defaultContentLanguageInSubdir: false
+languages:
+  en:
+    label: "English"
+    locale: "en-us"
+    weight: 1
+    title: "My Little Blog"
+    params:
+      description: "Notes on software, tooling, and things I'm learning."
+      algolia:
+        indexName: "blog_en"
+    menus:
+      main:
+        - name: Archives
+          url: /archives/
+          weight: 10
+        - name: Categories
+          url: /categories/
+          weight: 20
+        - name: Tags
+          url: /tags/
+          weight: 30
+        - name: Search
+          url: /search/
+          weight: 40
+  zh:
+    label: "中文"
+    locale: "zh-cn"
+    weight: 2
+    title: "我的小博客"
+    params:
+      description: "关于软件、工具链和日常学习的笔记。"
+      algolia:
+        indexName: "blog_zh"
+      homeInfoParams:
+        Title: "你好，我是 Parker 👋"
+        Content: >
+          关于软件、工具链，以及那些我故意拆坏的东西的笔记。
+          大多是 Hugo、Emacs，还有我当时正在读源码的随便什么项目。
+    menus:
+      main:
+        - name: 归档
+          url: /zh/archives/
+          weight: 10
+        - name: 分类
+          url: /zh/categories/
+          weight: 20
+        - name: 标签
+          url: /zh/tags/
+          weight: 30
+        - name: 搜索
+          url: /zh/search/
+          weight: 40
+
+# Custom output format that writes the Algolia records file per language:
+#   public/algolia.json  and  public/zh/algolia.json
+outputFormats:
+  LLMS:
+    baseName: "llms"
+    mediaType: "text/plain"
+    isPlainText: true
+    notAlternative: true
+  Algolia:
+    baseName: "algolia"
+    mediaType: "application/json"
+    isPlainText: true
+    notAlternative: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - Algolia
+    - LLMS
+
+markup:
+  highlight:
+    # noClasses: false emits chroma CSS classes instead of inline styles, so the
+    # theme's chroma-styles.css can follow the light/dark toggle.
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    tabWidth: 4
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+
+# Uncomment once a GA4 measurement ID exists. SEO tags and analytics are only
+# emitted on production builds.
+# services:
+#   googleAnalytics:
+#     ID: "G-XXXXXXXXXX"
+
+params:
+  env: production
+  author: "Parker Chen"
+  DateFormat: "2006-01-02"
+  defaultTheme: auto
+  keywords: [blog, hugo, org-mode, notes]
+
+  ShowReadingTime: true
+  ShowWordCount: true
+  showtoc: true
+  tocopen: false
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowPostNavLinks: true
+  ShowShareButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowFullTextinRSS: true
+  comments: true
+  displayFullLangName: true
+  disableScrollToTop: false
+
+  # Algolia credentials. appId and searchApiKey are public by design — the
+  # search-only key is safe to ship in the page. Never put the admin key here;
+  # the push script reads that from the environment.
+  algolia:
+    appId: ""
+    searchApiKey: ""
+
+  homeInfoParams:
+    Title: "Hi, I'm Parker 👋"
+    Content: >
+      Software notes, tooling experiments, and things I break on purpose.
+      Mostly Hugo, Emacs, and whatever I'm currently reading the source of.
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/BHChen24"
+    - name: email
+      url: "mailto:baihua.parker.chen@gmail.com"
+    - name: rss
+      url: "/index.xml"
+
+  schema:
+    publisherType: "Person"
+  analytics:
+    google:
+      SiteVerificationTag: ""
+
+  # Fill these from https://giscus.app. The comments partial renders nothing
+  # while repo is empty.
+  giscus:
+    repo: ""
+    repoId: ""
+    category: "Announcements"
+    categoryId: ""

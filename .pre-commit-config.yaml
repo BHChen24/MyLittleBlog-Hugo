@@ -1,0 +1,54 @@
+# Local hooks use `language: system`, so the binaries must already be on PATH.
+# Run scripts/setup-hooks.sh once per clone to install the hooks and register
+# the git-secrets patterns.
+default_install_hook_types: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^themes/
+      - id: end-of-file-fixer
+        exclude: ^themes/
+      - id: check-yaml
+      - id: check-json
+        # layouts/index.algolia.json is a Hugo template, not JSON.
+        exclude: ^layouts/
+      - id: check-added-large-files
+        args: ["--maxkb=2048"]
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
+  - repo: local
+    hooks:
+      # --since-commit HEAD limits the scan to what this commit introduces.
+      # A full-tree scan would flag params.algolia.searchApiKey in hugo.yaml on
+      # every commit — that key is a search-only key and is public by design,
+      # but TruffleHog classifies it under the AlgoliaAdminKey detector and
+      # cannot tell the two apart.
+      - id: trufflehog
+        name: trufflehog (staged changes)
+        entry: trufflehog git file://. --since-commit HEAD --no-update --fail --results=verified,unknown
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # Pattern matching over staged content. Patterns come from .gitsecrets and
+      # .gitsecrets-allowed, registered by scripts/setup-hooks.sh.
+      - id: git-secrets
+        name: git-secrets (staged content)
+        entry: git secrets --scan --cached
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # Fails the commit if .env is ever force-added.
+      - id: no-dotenv
+        name: refuse to commit .env
+        entry: scripts/check-no-dotenv.sh
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]

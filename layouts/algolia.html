@@ -1,0 +1,141 @@
+{{- define "main" }}
+
+<header class="page-header">
+    <h1>{{- (printf "%s&nbsp;" .Title) | htmlUnescape -}}
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+    </h1>
+    {{- if .Description }}
+    <div class="post-description">{{ .Description }}</div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">{{- partial "translation_list.html" . -}}</div>
+    {{- end }}
+</header>
+
+{{- $algolia := site.Params.algolia }}
+{{- if and $algolia.appId $algolia.searchApiKey $algolia.indexName }}
+
+<div id="searchbox" class="searchbox"></div>
+<div id="stats" class="ais-stats"></div>
+<div id="hits"></div>
+<div id="pagination" class="ais-pagination"></div>
+<div id="powered-by" class="ais-powered-by"></div>
+
+<style>
+    #searchbox .ais-SearchBox-form { display: flex; gap: .5rem; }
+    #searchbox input {
+        width: 100%; padding: .6rem .8rem; font-size: inherit; font-family: inherit;
+        color: var(--primary); background: var(--theme);
+        border: 1px solid var(--border); border-radius: var(--radius); outline: none;
+    }
+    #searchbox .ais-SearchBox-submit { display: none; }
+    #searchbox .ais-SearchBox-reset {
+        background: none; border: none; cursor: pointer; color: var(--secondary);
+    }
+    .ais-stats { margin: .8rem 0 .2rem; font-size: .8rem; color: var(--secondary); }
+    .ais-hit mark { background: var(--tertiary); color: var(--primary); padding: 0 .1em; }
+    .ais-hit-meta { font-size: .8rem; color: var(--secondary); margin-top: .2rem; }
+    .ais-pagination ul { display: flex; gap: .4rem; list-style: none; padding: 0; flex-wrap: wrap; }
+    .ais-pagination .ais-Pagination-item--selected a { font-weight: 700; text-decoration: underline; }
+    .ais-powered-by { margin-top: 2rem; font-size: .75rem; color: var(--secondary); }
+    .ais-empty { color: var(--secondary); padding: 1rem 0; }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@5.59.0/dist/lite/builds/browser.umd.js"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.116.0/dist/instantsearch.production.min.js"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    (function () {
+        // Go's html/template escapes a value in JS context into a string
+        // literal, so parse it back rather than bypassing that with safeJS.
+        var cfg = JSON.parse({{ dict
+            "appId" $algolia.appId
+            "apiKey" $algolia.searchApiKey
+            "indexName" $algolia.indexName
+            "placeholder" (.Params.placeholder | default (printf "%s" .Title))
+            "emptyText" (i18n "search_empty" | default "No results.")
+            | jsonify }});
+
+        // algoliasearch v5's lite UMD build registers itself as
+        // window["algoliasearch/lite"], not window.algoliasearch.
+        var lite = window["algoliasearch/lite"];
+        if (!lite || !window.instantsearch) return;
+
+        var search = instantsearch({
+            indexName: cfg.indexName,
+            searchClient: lite.liteClient(cfg.appId, cfg.apiKey),
+            routing: true,
+            future: { preserveSharedStateOnUnmount: true }
+        });
+
+        var w = instantsearch.widgets;
+
+        search.addWidgets([
+            w.configure({ hitsPerPage: 10, attributesToSnippet: ["content:40"] }),
+
+            w.searchBox({
+                container: "#searchbox",
+                placeholder: cfg.placeholder,
+                autofocus: true,
+                showSubmit: false,
+                showReset: true,
+                searchAsYouType: true
+            }),
+
+            w.stats({
+                container: "#stats",
+                templates: {
+                    text: function (data, opts) {
+                        if (!data.query) return "";
+                        return opts.html`${data.nbHits} results · ${data.processingTimeMS}ms`;
+                    }
+                }
+            }),
+
+            w.hits({
+                container: "#hits",
+                templates: {
+                    item: function (hit, opts) {
+                        var meta = [hit.dateStr, hit.readingTime + " min"];
+                        if (hit.tags && hit.tags.length) meta.push(hit.tags.join(", "));
+                        return opts.html`
+                            <article class="post-entry ais-hit">
+                                <header class="entry-header">
+                                    <h2>${opts.components.Highlight({ hit: hit, attribute: "title" })}</h2>
+                                </header>
+                                <div class="entry-content">
+                                    <p>${opts.components.Snippet({ hit: hit, attribute: "content" })}</p>
+                                </div>
+                                <footer class="ais-hit-meta">${meta.join(" · ")}</footer>
+                                <a class="entry-link" aria-label="${hit.title}" href="${hit.relpath}"></a>
+                            </article>`;
+                    },
+                    empty: function (results, opts) {
+                        if (!results.query) return "";
+                        return opts.html`<p class="ais-empty">${cfg.emptyText}</p>`;
+                    }
+                }
+            }),
+
+            w.pagination({ container: "#pagination", padding: 2 }),
+            w.poweredBy({ container: "#powered-by" })
+        ]);
+
+        search.start();
+    })();
+</script>
+
+{{- else }}
+<p class="ais-empty">
+    Search is not configured yet. Set <code>params.algolia.appId</code> and
+    <code>params.algolia.searchApiKey</code> in <code>hugo.yaml</code>.
+</p>
+{{- end }}
+
+{{- end }}{{/* end main */}}

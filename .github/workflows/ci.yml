@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          # TruffleHog diffs base against head; it needs the full history.
+          fetch-depth: 0
+
+      - name: TruffleHog
+        uses: trufflesecurity/trufflehog@v3.97.4
+        with:
+          # The action derives base/head from the push or pull_request event, so
+          # only new commits are scanned. A whole-history scan would flag
+          # params.algolia.searchApiKey in hugo.yaml on every run — that key is
+          # search-only and public by design, but TruffleHog reports it under
+          # the AlgoliaAdminKey detector and cannot tell the two apart.
+          extra_args: --results=verified,unknown
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - run: npm ci
+
+      # Runs the same script Vercel runs, so a broken deploy script fails here
+      # rather than on deploy. VERCEL_ENV is unset, so the Algolia index push is
+      # skipped automatically.
+      - name: Build site
+        run: ./build.sh
+
+      - name: Check expected output
+        run: |
+          set -euo pipefail
+          for f in public/index.html public/zh/index.html \
+                   public/algolia.json public/zh/algolia.json \
+                   public/robots.txt public/llms.txt public/sitemap.xml; do
+            test -s "$f" || { echo "missing or empty: $f"; exit 1; }
+          done
+          echo "All expected build artifacts present."

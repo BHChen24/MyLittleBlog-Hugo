@@ -1,0 +1,25 @@
+{{- /* Algolia records for the current language. Written to <lang>/algolia.json. */ -}}
+{{- /* content is truncated so a record stays under Algolia's 10KB record cap. */ -}}
+{{- /* htmlUnescape runs twice, and after truncate: both plainify and the HTML-aware
+     truncate escape entities, so unescaping must come last. */ -}}
+{{- $records := slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (not .Params.searchHidden) (ne .Layout "archives") (ne .Layout "search") (ne .Layout "algolia") -}}
+    {{- $records = $records | append (dict
+        "objectID"   .RelPermalink
+        "title"      .Title
+        "permalink"  .Permalink
+        "relpath"    .RelPermalink
+        "summary"    (.Summary | plainify | htmlUnescape | htmlUnescape)
+        "content"    (.Content | plainify | truncate 2000 "" | htmlUnescape | htmlUnescape)
+        "date"       .Date.Unix
+        "dateStr"    (.Date.Format (site.Params.DateFormat | default "2006-01-02"))
+        "section"    .Section
+        "lang"       site.Language.Lang
+        "tags"       (.Params.tags | default slice)
+        "categories" (.Params.categories | default slice)
+        "readingTime" .ReadingTime
+      ) -}}
+  {{- end -}}
+{{- end -}}
+{{- $records | jsonify (dict "indent" "  ") -}}

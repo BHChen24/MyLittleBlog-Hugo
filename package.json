@@ -1,0 +1,16 @@
+{
+  "name": "my-little-blog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sh -c '[ -f .env ] && { set -a; . ./.env; set +a; }; hugo server -D'",
+    "dev:prod": "sh -c '[ -f .env ] && { set -a; . ./.env; set +a; }; hugo server -D -e production'",
+    "build": "sh -c '[ -f .env ] && { set -a; . ./.env; set +a; }; hugo --gc --minify'",
+    "index": "sh -c '[ -f .env ] && { set -a; . ./.env; set +a; }; node scripts/algolia-push.mjs'",
+    "deploy": "npm run build && npm run index",
+    "hooks": "./scripts/setup-hooks.sh"
+  },
+  "dependencies": {
+    "algoliasearch": "^5.59.0"
+  }
+}
