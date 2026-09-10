@@ -18,7 +18,6 @@
         "lang"       site.Language.Lang
         "tags"       (.Params.tags | default slice)
         "categories" (.Params.categories | default slice)
-        "readingTime" .ReadingTime
       ) -}}
   {{- end -}}
 {{- end -}}

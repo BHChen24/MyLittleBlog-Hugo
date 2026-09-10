@@ -4,5 +4,4 @@ layout: "archives"
 url: "/zh/archives/"
 summary: "archives"
 ShowBreadCrumbs: false
-ShowReadingTime: false
 ---

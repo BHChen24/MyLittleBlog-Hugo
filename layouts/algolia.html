@@ -102,7 +102,7 @@
                 container: "#hits",
                 templates: {
                     item: function (hit, opts) {
-                        var meta = [hit.dateStr, hit.readingTime + " min"];
+                        var meta = [hit.dateStr];
                         if (hit.tags && hit.tags.length) meta.push(hit.tags.join(", "));
                         return opts.html`
                             <article class="post-entry ais-hit">

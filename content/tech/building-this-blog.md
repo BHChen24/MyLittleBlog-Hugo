@@ -4,8 +4,6 @@ date: 2026-09-09
 description: "Hugo, PaperMod, Algolia, and the four things that broke along the way."
 tags: ["hugo", "papermod", "algolia", "setup"]
 categories: ["tech"]
-ShowToc: true
-TocOpen: true
 ---
 
 This site runs on Hugo with the PaperMod theme, bilingual content, and Algolia

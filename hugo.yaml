@@ -111,8 +111,9 @@ params:
   defaultTheme: auto
   keywords: [blog, hugo, org-mode, notes]
 
-  ShowReadingTime: true
-  ShowWordCount: true
+  # Author stays in params for schema.org/OpenGraph; hideAuthor only
+  # drops it from the visible post meta line.
+  hideAuthor: true
   showtoc: true
   tocopen: false
   ShowBreadCrumbs: true

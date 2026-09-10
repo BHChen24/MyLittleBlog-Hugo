@@ -4,8 +4,6 @@ date: 2026-09-09
 description: "Hugo、PaperMod、Algolia，以及过程中踩坏的四个地方。"
 tags: ["hugo", "papermod", "algolia", "搭建"]
 categories: ["tech"]
-ShowToc: true
-TocOpen: true
 ---
 
 这个站跑在 Hugo 上，用 PaperMod 主题，中英双语，搜索走 Algolia。这几个选择本身
