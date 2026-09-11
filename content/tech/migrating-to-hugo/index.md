@@ -66,18 +66,18 @@ This is the part with real evidence behind it, not just preference:
 4. Error rates I never got to the bottom of. Vercel's dashboard would
    occasionally show something like this:
 
-   ![Vercel observability panel showing a 58% error rate](high-error-rate.png)
+   {{< figure src="high-error-rate.png" alt="Vercel observability panel showing a 58% error rate" caption="Vercel's own dashboard, mid outage." >}}
 
 5. The deployments themselves were flaky, on top of everything else. A run
    of "Updated" deploys failing back to back on production isn't something
    you want in your history:
 
-   ![A string of failed Vercel deployments](deployment-errors.png)
+   {{< figure src="deployment-errors.png" alt="A string of failed Vercel deployments" caption="A run of production deploys failing back to back." >}}
 
 6. React's CVE treadmill. Every so often there was a fresh CVE to patch that
    had nothing to do with anything I'd written:
 
-   ![A commit titled "Fix React Server Components CVE vulnerabilities"](cve-fix.png)
+   {{< figure src="cve-fix.png" alt="A commit titled 'Fix React Server Components CVE vulnerabilities'" caption="A CVE patch that had nothing to do with anything I'd written." >}}
 
 None of that is exotic. It's just the cost of running someone else's React
 app instead of a static site, and I'd paid it long enough.
@@ -91,7 +91,7 @@ something that fit a personal, bilingual blog. PaperMod stood out: MIT
 licensed, 13.9k GitHub stars, still getting updates, and the demo already
 looked close to what I wanted without any customization.
 
-![Hugo's themes page showing the PaperMod theme](hugo-themes.png)
+{{< figure src="hugo-themes.png" alt="Hugo's themes page showing the PaperMod theme" caption="PaperMod's listing in Hugo's theme gallery." >}}
 
 From there it was the usual mix: reading the theme's own docs, skimming its
 GitHub repo for how people actually configure it, and asking an AI assistant
