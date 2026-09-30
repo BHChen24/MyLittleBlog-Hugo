@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 315" role="img" aria-labelledby="title desc">
+  <title id="title">Where Jev fits in an AI workflow</title>
+  <desc id="desc">A message is classified by Jev. Application code routes it to a lookup, a language model, or a person based on the decision and uncertainty.</desc>
+  <rect width="1040" height="315" rx="24" fill="#101827"/>
+  <text x="36" y="47" fill="#f8fafc" font-family="Arial, sans-serif" font-size="25" font-weight="700">Where Jev could fit</text>
+  <text x="36" y="72" fill="#aab8ce" font-family="Arial, sans-serif" font-size="15">A small judgment helps software choose the next step.</text>
+  <rect x="36" y="122" width="198" height="100" rx="16" fill="#243247" stroke="#61738e"/>
+  <text x="58" y="162" fill="#f8fafc" font-family="Arial, sans-serif" font-size="19" font-weight="700">Incoming message</text>
+  <text x="58" y="188" fill="#c5d1e0" font-family="Arial, sans-serif" font-size="14">“I need help with...”</text>
+  <path d="M245 172h48" stroke="#94a3b8" stroke-width="3" fill="none"/>
+  <path d="m282 163 12 9-12 9" fill="none" stroke="#94a3b8" stroke-width="3"/>
+  <rect x="304" y="122" width="214" height="100" rx="16" fill="#123d54" stroke="#38bdf8"/>
+  <text x="328" y="161" fill="#f8fafc" font-family="Arial, sans-serif" font-size="19" font-weight="700">Jev</text>
+  <text x="328" y="188" fill="#bceaff" font-family="Arial, sans-serif" font-size="14">Intent + probability</text>
+  <path d="M529 172h48" stroke="#94a3b8" stroke-width="3" fill="none"/>
+  <path d="m566 163 12 9-12 9" fill="none" stroke="#94a3b8" stroke-width="3"/>
+  <rect x="589" y="122" width="163" height="100" rx="16" fill="#3c304f" stroke="#c084fc"/>
+  <text x="612" y="161" fill="#f8fafc" font-family="Arial, sans-serif" font-size="19" font-weight="700">Your code</text>
+  <text x="612" y="188" fill="#e2d4f5" font-family="Arial, sans-serif" font-size="14">Routes the request</text>
+  <path d="M763 172h42M805 172V80M805 172v92M805 80h28M805 172h28M805 264h28" stroke="#94a3b8" stroke-width="3" fill="none"/>
+  <rect x="836" y="46" width="166" height="67" rx="13" fill="#214638" stroke="#4ade80"/>
+  <text x="855" y="75" fill="#f8fafc" font-family="Arial, sans-serif" font-size="17" font-weight="700">Lookup</text>
+  <text x="855" y="96" fill="#c9f3d7" font-family="Arial, sans-serif" font-size="12">Simple request</text>
+  <rect x="836" y="139" width="166" height="67" rx="13" fill="#5c4025" stroke="#fbbf24"/>
+  <text x="855" y="168" fill="#f8fafc" font-family="Arial, sans-serif" font-size="17" font-weight="700">LLM</text>
+  <text x="855" y="189" fill="#fff0bd" font-family="Arial, sans-serif" font-size="12">Write or reason</text>
+  <rect x="836" y="232" width="166" height="67" rx="13" fill="#533443" stroke="#fb7185"/>
+  <text x="855" y="261" fill="#f8fafc" font-family="Arial, sans-serif" font-size="17" font-weight="700">Person</text>
+  <text x="855" y="282" fill="#ffe0e6" font-family="Arial, sans-serif" font-size="12">Uncertain or high stakes</text>
+</svg>
